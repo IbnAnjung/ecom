@@ -1,0 +1,127 @@
+version: "3.0"
+services:
+  auth:
+    build:
+      context: .
+      dockerfile: build/auth.http.Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - HTTP_PORT=8000
+      - DB_USER=root
+      - DB_PASSWORD=root_secret
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_SCHEMA=dbauthservice
+      - DB_TIMEOUT=60
+      - DB_MAX_IDDLE_CONNECTION=5
+      - DB_MAX_IDDLE_LIFETTIME=10
+      - DB_MAX_OPEN_CONNECTION=20
+      - DB_MAX_LIFETIME=600
+      - JWT_SECRET=secret
+      - JWT_SELLER_SECRET=seller_secret
+      - JWT_ACCESS_TOKEN_LIFETIME=24
+      - JWT_REFRESH_TOKEN_LIFETIME=72
+    depends_on:
+      mysql: 
+        condition: service_healthy
+        restart: true
+  store:
+    build:
+      context: .
+      dockerfile: build/store.http.Dockerfile
+    ports:
+      - "8001:8000"
+    environment:
+      - HTTP_PORT=8000
+      - DB_USER=root
+      - DB_PASSWORD=root_secret
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_SCHEMA=store
+      - DB_TIMEOUT=60
+      - DB_MAX_IDDLE_CONNECTION=5
+      - DB_MAX_IDDLE_LIFETTIME=10
+      - DB_MAX_OPEN_CONNECTION=20
+      - DB_MAX_LIFETIME=600
+      - AUTH_SERVICE_BASE_URI=http://auth:8000
+    depends_on:
+      mysql: 
+        condition: service_healthy
+        restart: true
+  store-cron:
+    build:
+      context: .
+      dockerfile: build/store.cron.Dockerfile
+    environment:
+      - HTTP_PORT=8000
+      - DB_USER=root
+      - DB_PASSWORD=root_secret
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_SCHEMA=store
+      - DB_TIMEOUT=60
+      - DB_MAX_IDDLE_CONNECTION=5
+      - DB_MAX_IDDLE_LIFETTIME=10
+      - DB_MAX_OPEN_CONNECTION=20
+      - DB_MAX_LIFETIME=600
+    depends_on:
+      mysql: 
+        condition: service_healthy
+        restart: true
+  product:
+    build:
+      context: .
+      dockerfile: build/product.http.Dockerfile
+    ports:
+      - "8002:8000"
+    environment:
+      - HTTP_PORT=8000
+      - MONGO_USER=edot
+      - MONGO_PASSWORD=edot_secret
+      - MONGO_HOST=mongo:27017
+      - MONGO_SOURCE=edot
+      - MONGO_COLLECTION_PRODUCT=product
+      - AUTH_SERVICE_BASE_URI=http://auth:8000
+      - STORE_SERVICE_BASE_URI=http://store:8000
+    depends_on:
+      mongo:
+        condition: service_healthy
+        restart: true
+  mysql:
+    image: mysql:8.4.0
+    environment:
+      - MYSQL_ROOT_USER=root
+      - MYSQL_ROOT_PASSWORD=root_secret
+      - MYSQL_USER=edot
+      - MYSQL_PASSWORD=edot_secret
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./database/1_auth.sql:/docker-entrypoint-initdb.d/1_auth.sql
+      - ./database/2_store.sql:/docker-entrypoint-initdb.d/2_store.sql
+      - ./database/3_store_seeder.sql:/docker-entrypoint-initdb.d/3_store_seeder.sql
+      - mysql_volums:/var/lib/mysql
+    healthcheck:
+      test: mysql --user=root --password=root_secret -e 'show databases'
+      timeout: 10s
+      retries: 10
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root_secret
+      MONGO_INITDB_DATABASE: edot
+    ports:
+      - "27018:27017"
+    volumes:
+      - ./database/mongo/initdb.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - mongo_volumes:/data/db
+    healthcheck:
+      test:  echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      timeout: 10s
+      retries: 10
+volumes:
+  mysql_volums:
+  mongo_volumes:

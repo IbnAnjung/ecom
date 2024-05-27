@@ -1,0 +1,431 @@
+{
+	"info": {
+		"_postman_id": "97a3e40a-3301-4ada-b1d7-a5295124bf12",
+		"name": "edot",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14759363"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "register user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"access_token\", response.data.access_token);\r",
+									"postman.setEnvironmentVariable(\"refresh_token\", response.data.refresh_token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"123456\",\r\n    \"name\": \"angga\",\r\n    \"email\":\"angga@edot.com\",\r\n    \"phone_number\": \"6281310265051\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}:{{port}}/register",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register seller",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"seller_access_token\", response.data.access_token);\r",
+									"postman.setEnvironmentVariable(\"seller_refresh_token\", response.data.refresh_token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"123456\",\r\n    \"username\": \"angga\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}:{{port}}/seller/register",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"seller",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"access_token\", response.data.access_token);\r",
+									"postman.setEnvironmentVariable(\"refresh_token\", response.data.refresh_token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"123456\",\r\n    \"email\":\"angga@angga.s2\",\r\n    \"phone_number\": \"6281310265050\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}:{{port}}/login",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login Seller",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"seller_access_token\", response.data.access_token);\r",
+									"postman.setEnvironmentVariable(\"seller_refresh_token\", response.data.refresh_token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"123456\",\r\n    \"username\": \"angga\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}:{{port}}/seller/login",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"seller",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "validate",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"token\": \"{{access_token}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}:{{port}}/validate",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"validate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "validate seller token",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"token\": \"{{seller_access_token}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}:{{port}}/validate_seller",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"validate_seller"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "product",
+			"item": [
+				{
+					"name": "get list product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}:{{port_product}}/product?keyword=espresso",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port_product}}",
+							"path": [
+								"product"
+							],
+							"query": [
+								{
+									"key": "keyword",
+									"value": "espresso"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "warehouse",
+			"item": [
+				{
+					"name": "checkout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"store_id\": 1,\r\n    \"products\": [\r\n        {\r\n            \"id\": \"6651a98294344ee37278f6d7\",\r\n            \"quantity\": 100,\r\n            \"price\":500000\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}:{{port_warehouse}}/order/checkout",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port_warehouse}}",
+							"path": [
+								"order",
+								"checkout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "transfer stock",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{seller_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sender_warehouse_id\": 2,\r\n    \"receiver_warehouse_id\": 1,\r\n    \"products\": [\r\n        {\r\n            \"product_id\": \"6651a98294344ee37278f6d6\",\r\n            \"quantity\": 50\r\n        },\r\n        {\r\n            \"product_id\": \"6651a98294344ee37278f6d7\",\r\n            \"quantity\": 50\r\n        },\r\n        {\r\n            \"product_id\": \"6651a98294344ee37278f6d8\",\r\n            \"quantity\": 50\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}:{{port_warehouse}}/stock/transfer",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port_warehouse}}",
+							"path": [
+								"stock",
+								"transfer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "toggle status warehouse",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{seller_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sender_warehouse_id\": 1,\r\n    \"receiver_warehouse_id\": 2,\r\n    \"products\": [\r\n        {\r\n            \"product_id\": \"6651a98294344ee37278f6d6\",\r\n            \"quantity\": 1\r\n        },\r\n        {\r\n            \"product_id\": \"6651a98294344ee37278f6d7\",\r\n            \"quantity\": 50\r\n        },\r\n        {\r\n            \"product_id\": \"6651a98294344ee37278f6d8\",\r\n            \"quantity\": 50\r\n        },\r\n        {\r\n            \"product_id\": \"6651a98294344ee37278f6d9\",\r\n            \"quantity\": 50\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}:{{port_warehouse}}/warehouse/toggle-status/1",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port_warehouse}}",
+							"path": [
+								"warehouse",
+								"toggle-status",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get list product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwibmFtZSI6ImFuZ2dhIiwiZXhwIjoxNzE2NzA1NjEwLCJpYXQiOjE3MTY2MTkyMTB9.r-PdOM_65Nfkpy71Z_kKyRn6ECjmSK8vItO3k33eLSg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"product_ids\": [\"6651a98294344ee37278f6d6\", \"6651a98294344ee37278f6da\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}:{{port_warehouse}}/stock",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port_warehouse}}",
+							"path": [
+								"stock"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
